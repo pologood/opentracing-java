@@ -127,7 +127,12 @@ abstract class AbstractSpanBuilder implements Tracer.SpanBuilder {
     }
 
     @Override
-    public final Span start() {
+    public final AbstractSpan start() {
+        return startManual();
+    }
+
+    @Override
+    public final AbstractSpan startManual() {
         AbstractSpan span = createSpan();
         stringTags.entrySet().forEach((entry) -> span.setTag(entry.getKey(), entry.getValue()));
         booleanTags.entrySet().forEach((entry) -> span.setTag(entry.getKey(), entry.getValue()));
@@ -137,8 +142,8 @@ abstract class AbstractSpanBuilder implements Tracer.SpanBuilder {
     }
 
     @Override
-    public ActiveSpan startAndActivate() {
-        return spanSource.adopt(start());
+    public ActiveSpan startActive() {
+        return spanSource.adopt(startManual());
     }
 
     private void withBaggageFrom(SpanContext from) {
