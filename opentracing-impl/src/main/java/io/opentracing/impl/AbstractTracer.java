@@ -13,7 +13,9 @@
  */
 package io.opentracing.impl;
 
+import io.opentracing.ActiveSpan;
 import io.opentracing.ActiveSpanSource;
+import io.opentracing.Span;
 import io.opentracing.SpanContext;
 import io.opentracing.ThreadLocalActiveSpanSource;
 import io.opentracing.Tracer;
@@ -46,8 +48,13 @@ abstract class AbstractTracer implements Tracer {
     abstract AbstractSpanBuilder createSpanBuilder(String operationName);
 
     @Override
-    public ActiveSpanSource spanSource() {
-        return this.spanSource;
+    public ActiveSpan activeSpan() {
+        return spanSource.activeSpan();
+    }
+
+    @Override
+    public ActiveSpan adopt(Span span) {
+        return spanSource.adopt(span);
     }
 
     @Override

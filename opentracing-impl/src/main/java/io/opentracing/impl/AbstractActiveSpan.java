@@ -36,7 +36,7 @@ public abstract class AbstractActiveSpan implements ActiveSpan {
     }
 
     /**
-     * Implementations must clean up any state (including thread-locals, etc) associated with the previosly active
+     * Implementations must clean up any state (including thread-locals, etc) associated with the previosly activeSpan
      * {@link Span}.
      */
     protected abstract void doDeactivate();

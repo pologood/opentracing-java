@@ -15,6 +15,7 @@ package io.opentracing.impl;
 
 import io.opentracing.Span;
 import io.opentracing.SpanContext;
+import io.opentracing.ThreadLocalActiveSpanSource;
 import io.opentracing.Tracer;
 import io.opentracing.Tracer.SpanBuilder;
 import io.opentracing.propagation.Format;
@@ -136,7 +137,7 @@ public final class AbstractTracerTest {
 
         @Override
         public AbstractSpanBuilder createSpanBuilder(String operationName) {
-            return new AbstractSpanBuilder(operationName, spanSource()) {
+            return new AbstractSpanBuilder(operationName, new ThreadLocalActiveSpanSource()) {
                 @Override
                 protected AbstractSpan createSpan() {
                     return new TestSpanImpl(this.operationName);
