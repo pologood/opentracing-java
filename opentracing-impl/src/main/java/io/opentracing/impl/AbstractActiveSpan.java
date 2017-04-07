@@ -1,7 +1,7 @@
 package io.opentracing.impl;
 
 import io.opentracing.ActiveSpan;
-import io.opentracing.ActiveSpanSource;
+import io.opentracing.ActiveSpanProvider;
 import io.opentracing.Span;
 import io.opentracing.SpanContext;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * {@link AbstractActiveSpan} deals with {@link ActiveSpanSource}/{@link ActiveSpan}/{@link Continuation}
+ * {@link AbstractActiveSpan} deals with {@link ActiveSpanProvider}/{@link ActiveSpan}/{@link Continuation}
  * reference counting while allowing subclasses to extend with bindings to ThreadLocals, etc.
  */
 public abstract class AbstractActiveSpan implements ActiveSpan {
@@ -42,9 +42,9 @@ public abstract class AbstractActiveSpan implements ActiveSpan {
     protected abstract void doDeactivate();
 
     /**
-     * Return the {@link ActiveSpanSource} associated wih this {@link Continuation}.
+     * Return the {@link ActiveSpanProvider} associated wih this {@link Continuation}.
      */
-    protected abstract ActiveSpanSource spanSource();
+    protected abstract ActiveSpanProvider spanSource();
 
     /**
      * Decrement the {@link Continuation}'s reference count, calling {@link Span#finish()} if no more references
@@ -65,7 +65,7 @@ public abstract class AbstractActiveSpan implements ActiveSpan {
     @Override
     public final Continuation defer() {
         refCount.incrementAndGet();
-        return ((AbstractActiveSpanSource) spanSource()).makeContinuation(this.wrapped, refCount);
+        return ((AbstractActiveSpanProvider) spanSource()).makeContinuation(this.wrapped, refCount);
     }
 
     @Override
