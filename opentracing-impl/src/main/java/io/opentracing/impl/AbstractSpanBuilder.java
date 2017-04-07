@@ -14,7 +14,7 @@
 package io.opentracing.impl;
 
 import io.opentracing.ActiveSpan;
-import io.opentracing.ActiveSpanProvider;
+import io.opentracing.ActiveSpanSource;
 import io.opentracing.References;
 import io.opentracing.Span;
 import io.opentracing.SpanContext;
@@ -35,13 +35,13 @@ abstract class AbstractSpanBuilder implements Tracer.SpanBuilder {
     protected boolean forceRoot = false;
     protected Instant start = Instant.now();
 
-    private final ActiveSpanProvider spanSource;
+    private final ActiveSpanSource spanSource;
     private final Map<String, String> stringTags = new HashMap<>();
     private final Map<String, Boolean> booleanTags = new HashMap<>();
     private final Map<String, Number> numberTags = new HashMap<>();
     private final Map<String, String> baggage = new HashMap<>();
 
-    AbstractSpanBuilder(String operationName, ActiveSpanProvider spanSource) {
+    AbstractSpanBuilder(String operationName, ActiveSpanSource spanSource) {
         this.operationName = operationName;
         this.spanSource = spanSource;
     }
